@@ -678,6 +678,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_pubsub_lite_reservation": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/reservations/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/schemas/{{name}}
 	"google_pubsub_schema": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/schemas/{{ .external_name }}"),
+	// Imported by using the following format: "projects/{{project}}/schemas/{{schema}} roles/viewer user:jane@example.com"
+	"google_pubsub_schema_iam_member": config.IdentifierFromProvider,
 
 	// recaptcha
 	//

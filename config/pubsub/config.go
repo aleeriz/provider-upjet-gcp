@@ -53,6 +53,12 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_pubsub_topic",
 		}
 	})
+
+	p.AddResourceConfigurator("google_pubsub_schema_iam_member", func(r *config.Resource) {
+		r.References["schema"] = config.Reference{
+			TerraformName: "google_pubsub_schema",
+		}
+	})
 }
 
 func pubsubLiteConnectionDetails(attr map[string]interface{}) (map[string][]byte, error) {
