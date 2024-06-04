@@ -122,6 +122,56 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 	return nil
 }
 
+// ResolveReferences of this SchemaIAMMember.
+func (mg *SchemaIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Schema", "SchemaList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Schema),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.SchemaRef,
+			Selector:     mg.Spec.ForProvider.SchemaSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Schema")
+	}
+	mg.Spec.ForProvider.Schema = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SchemaRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Schema", "SchemaList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Schema),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.SchemaRef,
+			Selector:     mg.Spec.InitProvider.SchemaSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Schema")
+	}
+	mg.Spec.InitProvider.Schema = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SchemaRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Subscription.
 func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

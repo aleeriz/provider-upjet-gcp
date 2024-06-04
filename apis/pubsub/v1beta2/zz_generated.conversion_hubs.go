@@ -13,6 +13,9 @@ func (tr *LiteSubscription) Hub() {}
 func (tr *LiteTopic) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *SchemaIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Subscription) Hub() {}
 
 // Hub marks this type as a conversion hub.

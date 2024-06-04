@@ -25,6 +25,15 @@ func (l *LiteTopicList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this SchemaIAMMemberList.
+func (l *SchemaIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this SubscriptionIAMMemberList.
 func (l *SubscriptionIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

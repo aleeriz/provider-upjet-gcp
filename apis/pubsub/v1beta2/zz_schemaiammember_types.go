@@ -13,7 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type SubscriptionIAMMemberConditionInitParameters struct {
+type ConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -21,7 +21,7 @@ type SubscriptionIAMMemberConditionInitParameters struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type SubscriptionIAMMemberConditionObservation struct {
+type ConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -29,7 +29,7 @@ type SubscriptionIAMMemberConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type SubscriptionIAMMemberConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -41,8 +41,8 @@ type SubscriptionIAMMemberConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type SubscriptionIAMMemberInitParameters struct {
-	Condition *SubscriptionIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+type SchemaIAMMemberInitParameters struct {
+	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -50,20 +50,20 @@ type SubscriptionIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.Subscription
-	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Schema
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
-	// Reference to a Subscription in pubsub to populate subscription.
+	// Reference to a Schema in pubsub to populate schema.
 	// +kubebuilder:validation:Optional
-	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
+	SchemaRef *v1.Reference `json:"schemaRef,omitempty" tf:"-"`
 
-	// Selector for a Subscription in pubsub to populate subscription.
+	// Selector for a Schema in pubsub to populate schema.
 	// +kubebuilder:validation:Optional
-	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
+	SchemaSelector *v1.Selector `json:"schemaSelector,omitempty" tf:"-"`
 }
 
-type SubscriptionIAMMemberObservation struct {
-	Condition *SubscriptionIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+type SchemaIAMMemberObservation struct {
+	Condition *ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -75,13 +75,13 @@ type SubscriptionIAMMemberObservation struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
-type SubscriptionIAMMemberParameters struct {
+type SchemaIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition *SubscriptionIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -92,23 +92,23 @@ type SubscriptionIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Schema
 	// +kubebuilder:validation:Optional
-	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
-	// Reference to a Subscription in pubsub to populate subscription.
+	// Reference to a Schema in pubsub to populate schema.
 	// +kubebuilder:validation:Optional
-	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
+	SchemaRef *v1.Reference `json:"schemaRef,omitempty" tf:"-"`
 
-	// Selector for a Subscription in pubsub to populate subscription.
+	// Selector for a Schema in pubsub to populate schema.
 	// +kubebuilder:validation:Optional
-	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
+	SchemaSelector *v1.Selector `json:"schemaSelector,omitempty" tf:"-"`
 }
 
-// SubscriptionIAMMemberSpec defines the desired state of SubscriptionIAMMember
-type SubscriptionIAMMemberSpec struct {
+// SchemaIAMMemberSpec defines the desired state of SchemaIAMMember
+type SchemaIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubscriptionIAMMemberParameters `json:"forProvider"`
+	ForProvider     SchemaIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -119,50 +119,50 @@ type SubscriptionIAMMemberSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider SubscriptionIAMMemberInitParameters `json:"initProvider,omitempty"`
+	InitProvider SchemaIAMMemberInitParameters `json:"initProvider,omitempty"`
 }
 
-// SubscriptionIAMMemberStatus defines the observed state of SubscriptionIAMMember.
-type SubscriptionIAMMemberStatus struct {
+// SchemaIAMMemberStatus defines the observed state of SchemaIAMMember.
+type SchemaIAMMemberStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        SubscriptionIAMMemberObservation `json:"atProvider,omitempty"`
+	AtProvider        SchemaIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// SubscriptionIAMMember is the Schema for the SubscriptionIAMMembers API. <no value>
+// SchemaIAMMember is the Schema for the SchemaIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type SubscriptionIAMMember struct {
+type SchemaIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || (has(self.initProvider) && has(self.initProvider.member))",message="spec.forProvider.member is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
-	Spec   SubscriptionIAMMemberSpec   `json:"spec"`
-	Status SubscriptionIAMMemberStatus `json:"status,omitempty"`
+	Spec   SchemaIAMMemberSpec   `json:"spec"`
+	Status SchemaIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SubscriptionIAMMemberList contains a list of SubscriptionIAMMembers
-type SubscriptionIAMMemberList struct {
+// SchemaIAMMemberList contains a list of SchemaIAMMembers
+type SchemaIAMMemberList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SubscriptionIAMMember `json:"items"`
+	Items           []SchemaIAMMember `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	SubscriptionIAMMember_Kind             = "SubscriptionIAMMember"
-	SubscriptionIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: SubscriptionIAMMember_Kind}.String()
-	SubscriptionIAMMember_KindAPIVersion   = SubscriptionIAMMember_Kind + "." + CRDGroupVersion.String()
-	SubscriptionIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(SubscriptionIAMMember_Kind)
+	SchemaIAMMember_Kind             = "SchemaIAMMember"
+	SchemaIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: SchemaIAMMember_Kind}.String()
+	SchemaIAMMember_KindAPIVersion   = SchemaIAMMember_Kind + "." + CRDGroupVersion.String()
+	SchemaIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(SchemaIAMMember_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&SubscriptionIAMMember{}, &SubscriptionIAMMemberList{})
+	SchemeBuilder.Register(&SchemaIAMMember{}, &SchemaIAMMemberList{})
 }

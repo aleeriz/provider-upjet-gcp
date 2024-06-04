@@ -13,6 +13,7 @@ import (
 	litesubscription "github.com/upbound/provider-gcp/internal/controller/pubsub/litesubscription"
 	litetopic "github.com/upbound/provider-gcp/internal/controller/pubsub/litetopic"
 	schema "github.com/upbound/provider-gcp/internal/controller/pubsub/schema"
+	schemaiammember "github.com/upbound/provider-gcp/internal/controller/pubsub/schemaiammember"
 	subscription "github.com/upbound/provider-gcp/internal/controller/pubsub/subscription"
 	subscriptioniammember "github.com/upbound/provider-gcp/internal/controller/pubsub/subscriptioniammember"
 	topic "github.com/upbound/provider-gcp/internal/controller/pubsub/topic"
@@ -27,6 +28,7 @@ func Setup_pubsub(mgr ctrl.Manager, o controller.Options) error {
 		litesubscription.Setup,
 		litetopic.Setup,
 		schema.Setup,
+		schemaiammember.Setup,
 		subscription.Setup,
 		subscriptioniammember.Setup,
 		topic.Setup,
